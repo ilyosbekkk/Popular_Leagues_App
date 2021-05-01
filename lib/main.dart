@@ -8,12 +8,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (_) => CountriesProvider(),
-      ),
-      ChangeNotifierProvider(create: (_) => LeaguesProvider())
-    ],
+    providers: [ChangeNotifierProvider(create: (_) => CountriesProvider()), ChangeNotifierProvider(create: (_) => LeaguesProvider())],
     child: MyApp(),
   ));
 }
