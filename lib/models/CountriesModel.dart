@@ -1,10 +1,12 @@
-class CountriesModel {
-  String get;
-  Paging paging;
-  int results;
-  List<Country> response;
+import 'package:flutter_provider/utils/Strings.dart';
 
-  CountriesModel({String get, Paging paging, int results, List<Country> countries}) {
+class CountriesModel {
+  String get = "";
+  Paging paging = Paging(current: 0, total: 0);
+  int results = 0;
+  List<Country>? response;
+
+  CountriesModel({required String get, required Paging paging, required int results, required List<Country> countries}) {
     this.get = get;
     this.paging = paging;
     this.results = results;
@@ -20,10 +22,10 @@ class CountriesModel {
 }
 
 class Paging {
-  int current;
-  int total;
+  int current = 0;
+  int total = 0;
 
-  Paging({int current, int total}) {
+  Paging({required int current, required int total}) {
     this.current = current;
     this.total = total;
   }
@@ -34,11 +36,11 @@ class Paging {
 }
 
 class Country {
-  String code;
-  String flagImageUrl;
-  String name;
+  String code = "";
+  String flagImageUrl = "";
+  String name = "";
 
-  Country({String code, String flagImageUrl, String name}) {
+  Country({required String code, required String flagImageUrl, required String name}) {
     this.code = code;
     this.flagImageUrl = flagImageUrl;
     this.name = name;
@@ -51,6 +53,10 @@ class Country {
   String get countryName => name;
 
   factory Country.fromJson(Map<String, dynamic> countryJson) {
-    return Country(code: countryJson["code"], flagImageUrl: countryJson["flag"], name: countryJson["name"]);
+    if (countryJson["code"] != null && countryJson["flag"] != null && countryJson["name"] != null)
+      return Country(code: countryJson["code"], flagImageUrl: countryJson["flag"], name: countryJson["name"]);
+    else {
+      return Country(code: "unknown", flagImageUrl: Strings.no_image, name: "unknown");
+    }
   }
 }
