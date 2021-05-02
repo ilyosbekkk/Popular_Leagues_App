@@ -15,18 +15,13 @@ class LeaguesProvider extends ChangeNotifier {
     final jsonResponse = json.decode(response.body);
     print(response.body);
     LeaguesModel leaguesModel = new LeaguesModel.fromJson(jsonResponse);
-    leagues.addAll(leaguesModel.leagues);
-
-
-
+    for(int i = 0; i<leaguesModel.results; i++){
+      print(leaguesModel.leagues[i].league.name);
+    }
     for(int i = 0; i<leagues.length; i++){
       print(leagues[i].name);
       print(leagues[i].id);
-
     }
-
-
-
     isLoading = false;
     notifyListeners();
   }

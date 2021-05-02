@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     filled: true,
                     hintText: Strings.country_search_hint,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
                         width: 1,
                       ),
@@ -74,7 +74,36 @@ class _MyHomePageState extends State<MyHomePage> {
                     Strings.cancel_search,
                     style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
+          if (!countriesProvider.isSearchMode)
+            PopupMenuButton<String>(
+              onSelected: (_) {},
+              itemBuilder: (BuildContext context) {
+                return {'Language', 'About', "Rate us"}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(choice),
+                        if (choice == "Language")
+                          Icon(
+                            Icons.language,
+                            color: Colors.grey,
+                          )
+                        else if (choice == "About")
+                          Icon(
+                            Icons.info,
+                            color: Colors.grey,
+                          )
+                        else if (choice == "Rate us")
+                          Icon(Icons.star, color: Colors.grey,)
+                      ],
+                    ),
+                  );
+                }).toList();
+              },
+            ),
         ],
       ),
       body: Center(
@@ -100,7 +129,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           height: card_height,
           child: Card(
-            color: Colors.yellowAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            color: Colors.yellow,
             elevation: 10,
             margin: EdgeInsets.all(10),
             child: Row(

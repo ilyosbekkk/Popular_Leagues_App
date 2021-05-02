@@ -3,10 +3,9 @@ import 'package:flutter_provider/utils/Strings.dart';
 class LeaguesModel {
   late String get = "";
   late int results = 0;
-  late List<League> leagues = [];
+  late List<Response> leagues = [];
 
-
-  LeaguesModel({required String get, required int results, required List<League> leagues}) {
+  LeaguesModel({required String get, required int results, required List<Response> leagues}) {
     this.get = get;
     this.results = results;
     this.leagues = leagues;
@@ -14,18 +13,27 @@ class LeaguesModel {
 
   factory LeaguesModel.fromJson(Map<String, dynamic> parsedJson) {
     var leagues = parsedJson["response"] as List;
-    List<League> leaguesList = leagues.map((e) => League.fromJson(e)).toList();
+    List<Response> leaguesList = leagues.map((e) => Response.fromJson(e)).toList();
     return LeaguesModel(get: parsedJson["get"], results: parsedJson["results"], leagues: leaguesList);
   }
 }
 
+class Response {
+  League league = new League(id: -1, name: "", type: "", logoUrl: "");
+  HostCountry hostCountry = new HostCountry(code: "", flagImageUrl: "", name: "");
 
-class  Response{
+  Response(League league,  HostCountry hostCountry) {
+    this.league = league;
+    this.hostCountry = hostCountry;
+  }
 
+
+  factory Response.fromJson(Map<String  , dynamic> parsedJson){
+    return Response(League.fromJson(parsedJson["league"]), HostCountry.fromJson(parsedJson["country"]));
+  }
 }
 
-class  HostCountry {
-
+class HostCountry {
   String code = "";
   String flagImageUrl = "";
   String name = "";
@@ -50,6 +58,7 @@ class  HostCountry {
     }
   }
 }
+
 class League {
   int id = 0;
   String name = "";
@@ -64,7 +73,7 @@ class League {
   }
 
   factory League.fromJson(Map<String, dynamic> fromJson) {
-    if (fromJson["id"] != null && fromJson["name"] != null && fromJson["type"]!=null && fromJson["logo"] != null)
+    if (fromJson["id"] != null && fromJson["name"] != null && fromJson["type"] != null && fromJson["logo"] != null)
       return League(id: fromJson["id"], name: fromJson["name"], type: fromJson["type"], logoUrl: fromJson["logo"]);
     else
       return League(id: 0, name: "none", type: "none", logoUrl: Strings.no_image);
