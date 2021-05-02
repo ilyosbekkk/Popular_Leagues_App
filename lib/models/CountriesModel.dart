@@ -40,7 +40,7 @@ class Country {
   String flagImageUrl = "";
   String name = "";
 
-  Country({required String code, required String flagImageUrl, required String name}) {
+  Country( String code,  String flagImageUrl,  String name) {
     this.code = code;
     this.flagImageUrl = flagImageUrl;
     this.name = name;
@@ -54,9 +54,10 @@ class Country {
 
   factory Country.fromJson(Map<String, dynamic> countryJson) {
     if (countryJson["code"] != null && countryJson["flag"] != null && countryJson["name"] != null)
-      return Country(code: countryJson["code"], flagImageUrl: countryJson["flag"], name: countryJson["name"]);
+      return Country(countryJson["code"], countryJson["flag"], countryJson["name"]);
     else {
-      return Country(code: "unknown", flagImageUrl: Strings.no_image, name: "unknown");
+      return Country( "unknown",  Strings.no_image,"unknown");
     }
   }
+
 }

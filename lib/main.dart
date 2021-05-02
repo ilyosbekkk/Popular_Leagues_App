@@ -7,6 +7,9 @@ import 'package:flutter_provider/ui/LeaguesScreen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  //initialize database
+
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => CountriesProvider()), ChangeNotifierProvider(create: (_) => LeaguesProvider())],
     child: MyApp(),

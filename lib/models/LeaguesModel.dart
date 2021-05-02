@@ -22,9 +22,6 @@ class LeaguesModel {
 
 class  Response{
 
-
-
-
 }
 
 class  HostCountry {

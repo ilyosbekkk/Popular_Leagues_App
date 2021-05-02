@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider/providers/LeaguesProvider.dart';
 import 'package:flutter_provider/ui/LeaguesScreen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_provider/providers/CountriesProvider.dart';
 import 'package:flutter_provider/utils/Strings.dart';
 import 'package:provider/provider.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   static String route = "/";
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   late double height;
   late double width;
   var countriesProvider;
+  var controller = TextEditingController();
+  var appbarHeight = AppBar().preferredSize.height;
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +26,69 @@ class MyHomePage extends StatelessWidget {
     height = mediaQueryData.size.height;
     width = mediaQueryData.size.width;
 
-    countriesProvider = Provider.of<CountriesProvider>(context, listen: false);
+    countriesProvider = Provider.of<CountriesProvider>(context, listen: true);
     countriesProvider.retrieveCountries();
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.string_title),
+        backgroundColor: Colors.lightGreen,
+        title: !countriesProvider.isSearchMode
+            ? Text(Strings.string_title)
+            : Container(
+                height: appbarHeight * 0.7,
+                child: TextField(
+                  onChanged: (text) {
+                    countriesProvider.searchCountries(text);
+                  },
+                  autofocus: true,
+                  controller: controller,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: Strings.country_search_hint,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        width: 1,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.only(left: 16, bottom: 16),
+                  ),
+                ),
+              ),
+        actions: [
+          !countriesProvider.isSearchMode
+              ? IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    countriesProvider.onSearchIconTap();
+                  })
+              : MaterialButton(
+                  onPressed: () {
+                    countriesProvider.onCancelTap();
+                    setState(() {
+                      controller.text = Strings.empty_text;
+                    });
+                  },
+                  child: Text(
+                    Strings.cancel_search,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+        ],
       ),
       body: Center(
         child: Consumer<CountriesProvider>(builder: (context, networkProvider, child) {
-          return !networkProvider.isLoading
-              ? ListView.builder(
-                  itemCount: networkProvider.countries.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return _buildCountryWidget(networkProvider.countries[index].countryCode, networkProvider.countries[index].name, networkProvider.countries[index].flagImageUrl, context);
-                  })
-              : CircularProgressIndicator();
+          return ListView.builder(
+              itemCount: networkProvider.countries.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return _buildCountryWidget(networkProvider.countries[index].countryCode, networkProvider.countries[index].name, networkProvider.countries[index].flagImageUrl, context);
+              });
         }),
       ),
     );
   }
 
-  //widgets
   Widget _buildCountryWidget(String code, String name, String imgUrl, BuildContext context) {
     double card_height = height * 0.1;
     double card_width = width;
@@ -64,7 +113,14 @@ class MyHomePage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(margin: EdgeInsets.only(right: 5), height: card_height * 0.3, width: card_width * 0.1, child: SvgPicture.network(imgUrl))
+                Container(
+                    margin: EdgeInsets.only(right: 5),
+                    height: card_height * 0.3,
+                    width: card_width * 0.1,
+                    child: SvgPicture.network(
+                      imgUrl,
+                      placeholderBuilder: (_) => SvgPicture.asset("assets/placeholder.svg"),
+                    ))
               ],
             ),
           ),
