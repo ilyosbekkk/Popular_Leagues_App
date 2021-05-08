@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider/ui/LeaguesScreen.dart';
+import 'package:flutter_provider/ui/screens/LeaguesScreen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_provider/providers/CountriesProvider.dart';
-import 'package:flutter_provider/utils/Strings.dart';
+import 'package:flutter_provider/utils/Strings_English.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -25,37 +25,13 @@ class _MyHomePageState extends State<MyHomePage> {
     var mediaQueryData = MediaQuery.of(context);
     height = mediaQueryData.size.height;
     width = mediaQueryData.size.width;
-
     countriesProvider = Provider.of<CountriesProvider>(context, listen: true);
     countriesProvider.retrieveCountries();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightGreen,
-        title: !countriesProvider.isSearchMode
-            ? Text(Strings.string_title)
-            : Container(
-                height: appbarHeight * 0.7,
-                child: TextField(
-                  onChanged: (text) {
-                    countriesProvider.searchCountries(text);
-                  },
-                  autofocus: true,
-                  controller: controller,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: Strings.country_search_hint,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        width: 1,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.only(left: 16, bottom: 16),
-                  ),
-                ),
-              ),
+        title: !countriesProvider.isSearchMode ? Text(Strings.string_title) : _buildTextFieldWidget(),
         actions: [
           !countriesProvider.isSearchMode
               ? IconButton(
@@ -75,35 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-          if (!countriesProvider.isSearchMode)
-            PopupMenuButton<String>(
-              onSelected: (_) {},
-              itemBuilder: (BuildContext context) {
-                return {'Language', 'About', "Rate us"}.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(choice),
-                        if (choice == "Language")
-                          Icon(
-                            Icons.language,
-                            color: Colors.grey,
-                          )
-                        else if (choice == "About")
-                          Icon(
-                            Icons.info,
-                            color: Colors.grey,
-                          )
-                        else if (choice == "Rate us")
-                          Icon(Icons.star, color: Colors.grey,)
-                      ],
-                    ),
-                  );
-                }).toList();
-              },
-            ),
+          if (!countriesProvider.isSearchMode) _buildPopupMenuWidget()
         ],
       ),
       body: Center(
@@ -124,13 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return InkWell(
         onTap: () {
-          Navigator.pushNamed(context, LeaguesScreen.route, arguments: {"code": code});
+          Navigator.pushNamed(context, LeaguesScreen.route, arguments: {name: code});
         },
         child: Container(
           height: card_height,
           child: Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             color: Colors.yellow,
             elevation: 10,
@@ -156,6 +104,67 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+
         ));
+  }
+  Widget _buildTextFieldWidget() {
+    return Container(
+      height: appbarHeight * 0.7,
+      child: TextField(
+        onChanged: (text) {
+          countriesProvider.searchCountries(text);
+        },
+        autofocus: true,
+        controller: controller,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          hintText: Strings.country_search_hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(
+              width: 1,
+            ),
+          ),
+          contentPadding: EdgeInsets.only(left: 16, bottom: 16),
+        ),
+      ),
+    );
+  }
+  Widget _buildPopupMenuWidget() {
+    return PopupMenuButton<String>(
+      onSelected: (_) {},
+      itemBuilder: (BuildContext context) {
+        return {'Language', 'About', "Rate us"}.map((String choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(choice),
+                if (choice == "Language")
+                  Icon(
+                    Icons.language,
+                    color: Colors.blue,
+                  )
+                else if (choice == "About")
+                  Icon(
+                    Icons.info,
+                    color: Colors.blue,
+
+                  )
+                else if (choice == "Rate us")
+                  Icon(
+                    Icons.star,
+                    color: Colors.blue,
+
+                  )
+              ],
+            ),
+          );
+        }).toList();
+      },
+    );
   }
 }

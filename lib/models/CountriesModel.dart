@@ -1,4 +1,4 @@
-import 'package:flutter_provider/utils/Strings.dart';
+import 'package:flutter_provider/utils/Strings_English.dart';
 
 class CountriesModel {
   String get = "";

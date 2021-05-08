@@ -10,4 +10,5 @@ class  Strings {
   static String country_search_hint = 'Enter country name';
   static String  cancel_search = "cancel";
   static String empty_text = "";
+  static String leagues = "Leagues";
 }
