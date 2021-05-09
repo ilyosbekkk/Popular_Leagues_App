@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 
 class  PlayersProvider extends ChangeNotifier{
 
-  List<Player> players = [];
-  bool isLoading = false;
+  List<Response> players = [];
+  bool isLoading = true;
 
 
   Future<void> retrievePlayers(int league_id)async {
@@ -19,19 +19,19 @@ class  PlayersProvider extends ChangeNotifier{
 
     PlayersModel playersModel = new PlayersModel.fromJson(jsonResponse);
 
+    if(players.isNotEmpty)
+      players.clear();
+    players.addAll(playersModel.players);
+
+    print(players);
+    isLoading = false;
 
 
+    notifyListeners();
 
-
-
-
-    print(playersModel.players);
-    isLoading = true;
-    print(response.body);
   }
 
+  void markFavorite(){
 
-
-
-
+  }
 }

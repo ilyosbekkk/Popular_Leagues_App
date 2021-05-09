@@ -11,4 +11,9 @@ class  Strings {
   static String  cancel_search = "cancel";
   static String empty_text = "";
   static String leagues = "Leagues";
+  static String player_name = "name";
+  static String  player_nationality = "nationality";
+  static String  player_age = "age";
+  static String  player_height = "heght";
+  static String  player_weight ="weight";
 }
