@@ -34,7 +34,7 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> parsedJson) {
 
-    if(parsedJson["id"] != null && parsedJson["name"] != null && parsedJson["firstname"] != null && parsedJson["lastname"] != null && parsedJson["age"] != null && parsedJson["nationality"] != null
+    if(parsedJson["id"]!= null && parsedJson["name"] != null && parsedJson["firstname"] != null && parsedJson["lastname"] != null && parsedJson["age"] != null && parsedJson["nationality"] != null
      && parsedJson["height"] != null && parsedJson["weight"] != null && parsedJson["photo"] != null
     )
     return Player(
