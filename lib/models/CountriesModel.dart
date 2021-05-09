@@ -56,7 +56,7 @@ class Country {
     if (countryJson["code"] != null && countryJson["flag"] != null && countryJson["name"] != null)
       return Country(countryJson["code"], countryJson["flag"], countryJson["name"]);
     else {
-      return Country( "unknown",  Strings.no_image,"unknown");
+      return Country( "unknown",  Strings.no_image_svg,"unknown");
     }
   }
 

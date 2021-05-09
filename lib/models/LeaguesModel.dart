@@ -54,7 +54,7 @@ class HostCountry {
     if (countryJson["code"] != null && countryJson["flag"] != null && countryJson["name"] != null)
       return HostCountry(code: countryJson["code"], flagImageUrl: countryJson["flag"], name: countryJson["name"]);
     else {
-      return HostCountry(code: "unknown", flagImageUrl: Strings.no_image, name: "unknown");
+      return HostCountry(code: "unknown", flagImageUrl: Strings.no_image_svg, name: "unknown");
     }
   }
 }
@@ -76,6 +76,6 @@ class League {
     if (fromJson["id"] != null && fromJson["name"] != null && fromJson["type"] != null && fromJson["logo"] != null)
       return League(id: fromJson["id"], name: fromJson["name"], type: fromJson["type"], logoUrl: fromJson["logo"]);
     else
-      return League(id: 0, name: "none", type: "none", logoUrl: Strings.no_image);
+      return League(id: 0, name: "none", type: "none", logoUrl: Strings.no_image_svg);
   }
 }

@@ -16,26 +16,37 @@ class PlayersBottomSheet extends StatelessWidget {
     playersProvider = Provider.of<PlayersProvider>(context, listen: false);
     print(id);
     playersProvider.retrievePlayers(id);
-    return SafeArea(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           Container(
-              margin: EdgeInsets.only(top: 10),
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  })),
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              children: [
+                IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                Container(
+                  child: Text(Strings.players_title, style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.blue
+                  ),),
+                ),
+              ],
+            ),
+          ),
           Consumer<PlayersProvider>(builder: (context, playersProvider, child) {
-            return playersProvider.isLoading ? CircularProgressIndicator() :Expanded(
-              child: ListView.builder(itemCount: playersProvider.players.length,itemBuilder: (context, index){
-                return _buildPlayerCardView(playersProvider.players[index]);
-              }),
-            );
+            return playersProvider.isLoading
+                ? CircularProgressIndicator()
+                : Expanded(
+                    child: ListView.builder(
+                        itemCount: playersProvider.players.length,
+                        itemBuilder: (context, index) {
+                          return _buildPlayerCardView(playersProvider.players[index]);
+                        }),
+                  );
           })
         ],
       ),
@@ -46,7 +57,7 @@ class PlayersBottomSheet extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          CachedNetworkImage(imageUrl:   player.player.photo_url!),
+          CachedNetworkImage(imageUrl: player.player.photo_url!),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text(Strings.player_name), Text(player.player.name!)],
@@ -72,7 +83,6 @@ class PlayersBottomSheet extends StatelessWidget {
     );
   }
 }
-
 
 /*
 

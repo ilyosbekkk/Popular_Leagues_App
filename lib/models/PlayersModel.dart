@@ -1,4 +1,5 @@
 import 'package:flutter_provider/models/CountriesModel.dart';
+import 'package:flutter_provider/utils/Strings_English.dart';
 
 //players
 class PlayersModel {
@@ -13,7 +14,7 @@ class PlayersModel {
     var playerList = parsedJson["response"] as List;
     List<Response> players = playerList.map((e) => Response.fromJson(e)).toList();
 
-    return PlayersModel(parsedJson["get"], parsedJson["results"], Paging.fromJson(parsedJson["paging"]),  players);
+    return PlayersModel(parsedJson["get"], parsedJson["results"], Paging.fromJson(parsedJson["paging"]), players);
   }
 }
 
@@ -30,29 +31,21 @@ class Player {
   String? weight;
   String? photo_url;
 
-  Player(this.id, this.name, this.firstname, this.lastname, this.age, this.nationality, this.height, this.weight, this.photo_url);
+  Player({this.id, this.name, this.firstname, this.lastname, this.age, this.nationality, this.height, this.weight, this.photo_url});
 
   factory Player.fromJson(Map<String, dynamic> parsedJson) {
 
-    if(parsedJson["id"]!= null && parsedJson["name"] != null && parsedJson["firstname"] != null && parsedJson["lastname"] != null && parsedJson["age"] != null && parsedJson["nationality"] != null
-     && parsedJson["height"] != null && parsedJson["weight"] != null && parsedJson["photo"] != null
-    )
     return Player(
-      parsedJson["id"],
-      parsedJson["name"],
-      parsedJson["firstname"],
-      parsedJson["lastname"],
-      parsedJson["age"],
-      parsedJson["nationality"],
-      parsedJson["height"],
-      parsedJson["weight"],
-      parsedJson["photo"],
-    );
-
-    else  {
-      return Player(-1, "unknown", "unknown", "unknown", -1, "unknown", "unknown", "unknown", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freeiconspng.com%2Fimg%2F23483&psig=AOvVaw1VziwZwxjgHct4BjiJot92&ust=1620625826564000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPCX3ejzu_ACFQAAAAAdAAAAABAD");
-    }
-
+        id: parsedJson["id"] != null ? parsedJson["id"] : -1,
+        name: parsedJson["name"] != null ? parsedJson["name"] : "unknown",
+        firstname: parsedJson["firstname"] != null ? parsedJson["firstname"] : "unknown",
+        lastname: parsedJson["lastname"] != null ? parsedJson["lastname"] : "unknown",
+        age: parsedJson["age"] != null ? parsedJson["age"] : "unknown",
+        nationality: parsedJson["nationality"] != null ? parsedJson["nationality"] : "unknown",
+        height: parsedJson["height"] != null ? parsedJson["height"] : "unknwon",
+        weight: parsedJson["weight"] != null ? parsedJson["weight"] : "unknown",
+        photo_url: parsedJson["photo"] != null ? parsedJson["photo"] : Strings.no_image_png,
+      );
   }
 }
 
@@ -61,12 +54,10 @@ class Response {
 
   Response(this.player);
 
-
-  factory Response.fromJson(Map<String,  dynamic> parsedJson){
-      return Response(Player.fromJson(parsedJson["player"]));
+  factory Response.fromJson(Map<String, dynamic> parsedJson) {
+    return Response(Player.fromJson(parsedJson["player"]));
   }
 }
-
 
 class PlayerBirth {
   String? date;
