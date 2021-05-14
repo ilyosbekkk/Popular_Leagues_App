@@ -14,29 +14,32 @@ class PlayersBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     playersProvider = Provider.of<PlayersProvider>(context, listen: false);
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     print(id);
     playersProvider.retrievePlayers(id);
     return Scaffold(
+
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                Container(
-                  child: Text(Strings.players_title, style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.blue
-                  ),),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(top: statusBarHeight),
+          //   child: Row(
+          //     children: [
+          //       IconButton(
+          //           icon: Icon(Icons.arrow_back),
+          //           onPressed: () {
+          //             Navigator.pop(context);
+          //           }),
+          //       Container(
+          //         child: Text(Strings.players_title, style: TextStyle(
+          //           fontSize: 20,
+          //           color: Colors.blue
+          //         ),),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Consumer<PlayersProvider>(builder: (context, playersProvider, child) {
             return playersProvider.isLoading
                 ? CircularProgressIndicator()

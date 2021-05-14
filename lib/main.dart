@@ -7,14 +7,17 @@ import 'package:flutter_provider/ui/screens/HomeScreen.dart';
 import 'package:flutter_provider/ui/screens/LeaguesScreen.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/StandingsProvider.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => CountriesProvider()),
       ChangeNotifierProvider(create: (_) => LeaguesProvider()),
-      ChangeNotifierProvider(create: (_) => PlayersProvider())
-               ],
+      ChangeNotifierProvider(create: (_) => PlayersProvider()),
+      ChangeNotifierProvider(create: (_) => StandingsProvider())
+    ],
     child: MyApp(),
   ));
 }
@@ -26,13 +29,12 @@ class MyApp extends StatelessWidget {
       title: 'Test  Title',
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
-
-
-
-
       ),
       initialRoute: MyHomePage.route,
-      routes: {MyHomePage.route: (_) => MyHomePage(), LeaguesScreen.route: (_) => LeaguesScreen()},
+      routes: {
+        MyHomePage.route: (_) => MyHomePage(),
+        LeaguesScreen.route: (_) => LeaguesScreen()
+      },
     );
   }
 }
